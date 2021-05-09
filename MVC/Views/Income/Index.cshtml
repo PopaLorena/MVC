@@ -1,0 +1,83 @@
+﻿
+
+@model IEnumerable<MVC.Models.Income>
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Incomes";
+}
+
+<h2>Incomes</h2>
+<p></p>
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary"> Income Items List</h2>
+        </div>
+        <div class="col-6">
+            <a asp-controller="Income" asp-action="Create" class="btn btn-primary">  Create new Expense</a>
+        </div>
+    </div>
+    <br />
+
+    @if (Model.Count() > 0)
+    {
+        @using (Html.BeginForm("Index", "Income", FormMethod.Get))
+        {
+            <p>
+                Find by name: @Html.TextBox("SearchString")
+                <input type="submit" value="Search" />
+            </p>
+        }
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["IncomeNameSortParm"]"> Income Name</a>
+
+                    </th>
+                    <th>
+                        @*<a asp-action="Index" asp-route-sortOrder="@ViewData["AmountSortParm"]"> Amount</a>*@
+                        Amount
+                    </th>
+                    <th>
+                        Changes
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <p>your curent budget is @Model.First().budget.Amount</p>
+                @foreach (var income in Model)
+                { 
+                    
+
+
+                <tr>
+                        <td width="35%">@income.IncomeName</td>
+                        <td width="35%">@income.Amount</td>
+                        <td width="30%">
+                            <div class="w-100 btn-group" role="group">
+                                <a asp-controller="Income" asp-action="Update" asp-route-Id="@income.Id" class="btn btn-primary mx-1">Update</a>
+                                <a asp-controller="Income" asp-action="Delete" asp-route-Id="@income.Id" class="btn btn-danger mx-1">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        @using (Html.BeginForm("Index", "Income", FormMethod.Get))
+        {
+            <p>
+                Find by name: @Html.TextBox("SearchString")
+                <input type="submit" value="Search" />
+            </p>
+        }
+        <p>No Items Here</p>
+    }
+
+</div>
+
